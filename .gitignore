@@ -1,0 +1,19 @@
+# Datos: nunca se suben (el dataset original pesa ~3 GB)
+data/*
+!data/raw/
+data/raw/*
+!data/raw/.gitkeep
+*.parquet
+*.csv
+*.db
+
+# Credenciales
+.env
+kaggle.json
+
+# Python / Jupyter
+__pycache__/
+.ipynb_checkpoints/
+.pytest_cache/
+dask-worker-space/
+.venv/

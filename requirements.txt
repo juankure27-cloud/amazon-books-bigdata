@@ -1,0 +1,17 @@
+pandas>=2.2
+numpy>=1.26
+pyarrow>=15
+dask[dataframe,distributed]>=2024.8
+bokeh>=3.1            # dashboard de Dask (http://localhost:8787)
+prefect>=3.0
+sqlalchemy>=2.0
+psycopg2-binary>=2.9  # driver de PostgreSQL (AWS RDS)
+scikit-learn>=1.4
+vaderSentiment>=3.3
+pyyaml>=6
+python-dotenv>=1.0
+matplotlib>=3.8
+seaborn>=0.13
+jupyterlab>=4
+kaggle>=1.6
+pytest>=8

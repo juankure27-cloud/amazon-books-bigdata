@@ -1,0 +1,46 @@
+# Configuración central del proyecto. Todo el pipeline lee de aquí.
+
+paths:
+  raw_dir: data/raw            # CSV originales de Kaggle (NO se suben a AWS ni a GitHub)
+  bronze_dir: data/bronze      # CSV convertidos a Parquet, sin transformar
+  silver_dir: data/silver      # reseñas limpias + enriquecidas con datos del libro
+  gold_dir: data/gold          # tablas analíticas (esto es lo único que va a AWS)
+  reports_dir: reports         # figuras, reportes de rendimiento de Dask
+  manifest: data/bronze/_manifest.json
+
+files:
+  reviews_pattern: "Books_rating*.csv"
+  books_pattern: "books_data*.csv"
+
+conversion:
+  chunksize: 250000            # filas por bloque al leer el CSV con pandas
+
+analysis:
+  negative_threshold: 2        # score <= 2  => reseña negativa (variable objetivo)
+  min_reviews_category: 1000   # mínimo de reseñas para mostrar una categoría
+  min_reviews_publisher: 500   # mínimo de reseñas para mostrar una editorial
+  top_books: 50
+  sentiment: true              # sentimiento VADER sobre review/summary
+  model_sample_rows: 300000    # filas para el modelo base
+
+dask:
+  default_profile: B
+  profiles:
+    A:                         # pocos workers "gordos": 2 procesos x 2 hilos
+      n_workers: 2
+      threads_per_worker: 2
+      memory_limit: "3GiB"
+    B:                         # más workers "delgados": 4 procesos x 1 hilo
+      n_workers: 4
+      threads_per_worker: 1
+      memory_limit: "1.5GiB"
+    C:                         # opcional: un solo proceso con 4 hilos (referencia)
+      n_workers: 1
+      threads_per_worker: 4
+      memory_limit: "6GiB"
+
+database:
+  # Se toma de la variable de entorno DB_URL (ver .env.example).
+  # Si no existe, se usa SQLite local para pruebas.
+  fallback_url: "sqlite:///data/gold/analytics.db"
+  schema_prefix: ""            # ej. "ab_" para prefijar las tablas
