@@ -20,7 +20,7 @@ analysis:
   min_reviews_category: 1000   # mínimo de reseñas para mostrar una categoría
   min_reviews_publisher: 500   # mínimo de reseñas para mostrar una editorial
   top_books: 50
-  sentiment: true              # sentimiento VADER sobre review/summary
+  sentiment: false              # sentimiento VADER sobre review/summary
   model_sample_rows: 300000    # filas para el modelo base
 
 dask:
